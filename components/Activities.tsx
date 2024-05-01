@@ -1,6 +1,7 @@
 import { formatCurrency } from "../helpers/currency";
 import { formatDate } from "../helpers/date";
 import { Activity } from "../types/activity";
+import { cn } from "../utils/cn";
 
 interface ActivitiesProps {
   activities: Activity<string>[];
@@ -52,7 +53,10 @@ const Activities = ({ activities, handleBookNow }: ActivitiesProps) => {
                 <div className="mt-6">
                   <a
                     onClick={() => handleBookNow(activity._id)}
-                    className="relative flex items-center justify-center rounded-md border border-transparent bg-gray-100 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200 cursor-pointer"
+                    className={cn(
+                      "relative flex items-center justify-center rounded-md border border-transparent bg-gray-100 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200 cursor-pointer transition",
+                      isSoldOut && "bg-white border-gray-30 hover:bg-gray-50"
+                    )}
                   >
                     {isSoldOut ? "Add to Waiting List" : "Book now"}
                     <span className="sr-only">, {activity.name}</span>
