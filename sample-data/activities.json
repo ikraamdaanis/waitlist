@@ -1,0 +1,74 @@
+[
+  {
+    "_id": "6630c91c4e0b0e57fc5144e7",
+    "name": "Hiking",
+    "date": "2024-07-06",
+    "imageSrc": "/img/hiking.jpg",
+    "imageAlt": "A person hiking on a mountain trail",
+    "price": 140,
+    "placeLimit": 10
+  },
+  {
+    "_id": "6630c91c4e0b0e57fc5144e8",
+    "name": "Sailing",
+    "date": "2024-07-13",
+    "imageSrc": "/img/sailing.jpg",
+    "imageAlt": "Sailing boat on the ocean at sunset",
+    "price": 220,
+    "placeLimit": 6
+  },
+  {
+    "_id": "6630c91c4e0b0e57fc5144e9",
+    "name": "Kayaking",
+    "date": "2024-07-20",
+    "imageSrc": "/img/kayaking.jpg",
+    "imageAlt": "A person kayaking on the ocean at sunset",
+    "price": 220,
+    "placeLimit": 8
+  },
+  {
+    "_id": "6630c91c4e0b0e57fc5144ea",
+    "name": "Nature Walk",
+    "date": "2024-07-27",
+    "imageSrc": "/img/nature-walk.jpg",
+    "imageAlt": "A person walking through a lush forest",
+    "price": 140,
+    "placeLimit": 10
+  },
+  {
+    "_id": "6630c91c4e0b0e57fc5144eb",
+    "name": "Camping",
+    "date": "2024-08-04",
+    "imageSrc": "/img/camping.jpg",
+    "imageAlt": "A camp fire in the woods at night",
+    "price": 200,
+    "placeLimit": 12
+  },
+  {
+    "_id": "6630c91c4e0b0e57fc5144ec",
+    "name": "Zip Lining",
+    "date": "2024-08-11",
+    "imageSrc": "/img/zip-lining.jpg",
+    "imageAlt": "A person zip lining through the trees",
+    "price": 320,
+    "placeLimit": 5
+  },
+  {
+    "_id": "6630c91c4e0b0e57fc5144ed",
+    "name": "Biking",
+    "date": "2024-08-18",
+    "imageSrc": "/img/biking.jpg",
+    "imageAlt": "A person biking on a mountain trail",
+    "price": 220,
+    "placeLimit": 10
+  },
+  {
+    "_id": "6630c91c4e0b0e57fc5144ee",
+    "name": "Fishing",
+    "date": "2024-08-25",
+    "imageSrc": "/img/fishing.jpg",
+    "imageAlt": "A person fishing on a calm lake at sunrise",
+    "price": 180,
+    "placeLimit": 8
+  }
+]
