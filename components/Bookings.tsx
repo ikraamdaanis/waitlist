@@ -42,22 +42,30 @@ const Bookings = ({ bookings }: BookingsProps) => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 bg-white">
-                {bookings.map((booking) => (
-                  <tr key={booking.email}>
-                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-900 sm:pl-6">
-                      {formatDate(new Date(booking.createdAt), true)}
-                    </td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      {booking.name}
-                    </td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      {booking.email}
-                    </td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      {booking.activity.name}
+                {!bookings.length ? (
+                  <tr>
+                    <td colSpan={4} className="py-10 text-gray-400 text-center">
+                      No data
                     </td>
                   </tr>
-                ))}
+                ) : (
+                  bookings.map((booking) => (
+                    <tr key={booking.email}>
+                      <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-900 sm:pl-6">
+                        {formatDate(new Date(booking.createdAt), true)}
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                        {booking.name}
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                        {booking.email}
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                        {booking.activity.name}
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
