@@ -1,9 +1,15 @@
 import classNames from "classnames";
 import { useRouter } from "next/router";
 
+export const WAITING_LIST_TAB = "waitinglist";
+
 const tabs = [
   { name: "Bookings", href: "/admin", current: true },
-  { name: "Waiting list", href: "/admin?tab=waitinglist", current: false },
+  {
+    name: "Waiting list",
+    href: `/admin?tab=${WAITING_LIST_TAB}`,
+    current: false,
+  },
 ];
 
 /**
