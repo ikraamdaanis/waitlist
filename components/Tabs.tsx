@@ -1,11 +1,19 @@
 import classNames from "classnames";
+import { useRouter } from "next/router";
 
 const tabs = [
-  { name: "Bookings", href: "#", current: true },
-  { name: "Waiting list", href: "#", current: false },
+  { name: "Bookings", href: "/admin", current: true },
+  { name: "Waiting list", href: "/admin?tab=waitinglist", current: false },
 ];
 
+/**
+ * Displays the tabs for bookings page. Complete bookings and bookings that are
+ * currently on a waitling list.
+ */
 const Tabs = () => {
+  const router = useRouter();
+  const path = router.asPath;
+
   return (
     <div>
       <div className="border-b border-gray-200">
@@ -15,7 +23,7 @@ const Tabs = () => {
               key={tab.name}
               href={tab.href}
               className={classNames(
-                tab.current
+                tab.href === path
                   ? "border-green-500 text-green-600"
                   : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700",
                 "whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium"
