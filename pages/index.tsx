@@ -1,21 +1,33 @@
-import { ObjectId } from "mongodb";
-import clientPromise from "../lib/mongodb";
 import { useState } from "react";
 import Activities from "../components/Activities";
 import BookNow from "../components/BookNow";
-import { Activity } from "../types/activity";
 import Header from "../components/Header";
+import clientPromise from "../lib/mongodb";
+import { Activity } from "../types/activity";
+import { Booking } from "../types/booking";
 
+/**
+ * Fetches activities and bookings from the database and calculates the sales
+ * count for each activity based on the number of bookings associated with
+ * that activity and is added as a new property to each activity object.
+ */
 export const getServerSideProps = async () => {
   try {
     const client = await clientPromise;
     const db = client.db();
-    const bookings = await db.collection("bookings").find({}).toArray();
+    const bookings = await db
+      .collection<Booking>("bookings")
+      .find({
+        $or: [{ isWaitlisted: { $exists: false } }, { isWaitlisted: false }],
+      })
+      .toArray();
     const activities = await db.collection("activities").find({}).toArray();
 
     const activitiesWithSalesCount = activities.map((activity) => {
       const bookingsForActivity = bookings.filter(
-        (booking) => booking.activity.toString() === activity._id.toString()
+        (booking) =>
+          booking.activity.toString() === activity._id.toString() &&
+          !booking.isWaitlisted
       );
       const sales = bookingsForActivity.reduce((acc) => acc + 1, 0);
       return { ...activity, sales };
@@ -38,11 +50,19 @@ interface IndexProps {
   activities: Activity<string>[];
 }
 
+/**
+ * The main page component that displays a list of available activities.
+ * It renders the Activities component to display the list of activities,
+ * and the BookNow component when the user selects an activity to book.
+ */
 const Index = ({ activities }: IndexProps) => {
-  const [isBookigNowOpen, setIsBookNowOpen] = useState(false);
+  const [isBookingNowOpen, setIsBookNowOpen] = useState(false);
   const [selectedActivityId, setSelectedActivityId] = useState<
     string | undefined
   >();
+  const selectedActivity = activities.find(
+    (activity) => activity._id === selectedActivityId
+  );
 
   const handleBookNow = (activityId: string) => {
     setIsBookNowOpen(true);
@@ -102,9 +122,9 @@ const Index = ({ activities }: IndexProps) => {
         </div>
       </main>
       <BookNow
-        open={isBookigNowOpen}
+        open={isBookingNowOpen}
         setOpen={handleCloseBookNow}
-        activityId={selectedActivityId}
+        activity={selectedActivity}
       />
     </div>
   );

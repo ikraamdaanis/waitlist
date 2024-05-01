@@ -3,6 +3,10 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Booking } from "../../types/booking";
 import clientPromise from "../../lib/mongodb";
 
+/**
+ * POST Endpoint for creating bookings. Throws an error if the request method
+ * is not POST or if there was a problem creating the booking.
+ */
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
     const client = await clientPromise;
@@ -10,11 +14,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const bookings = db.collection<Booking>("bookings");
 
     try {
-      const { activity, name, email } = JSON.parse(req.body);
+      const { activity, name, email, isWaitlisted } = JSON.parse(req.body);
       await bookings.insertOne({
         activity: ObjectId.createFromHexString(activity),
         name,
         email,
+        isWaitlisted,
         createdAt: new Date(),
       });
       res.status(201).json({ message: "Booking created" });

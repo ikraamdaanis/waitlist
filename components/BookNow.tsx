@@ -1,17 +1,26 @@
-import { Fragment, useState } from "react";
-import { useRouter } from "next/router";
 import { Dialog, Transition } from "@headlessui/react";
+import { useRouter } from "next/router";
+import { Fragment, useState } from "react";
+import { Activity } from "../types/activity";
 
 interface BookNowProps {
-  activityId?: string;
+  activity: Activity<string> | undefined;
   open: boolean;
   setOpen: (open: boolean) => void;
 }
 
-const BookNow = ({ activityId, open, setOpen }: BookNowProps) => {
+/**
+ * Modal form for booking creating a booking. If the activity is sold out it
+ * will mark the booking as isWaitlisted.
+ */
+const BookNow = ({ activity, open, setOpen }: BookNowProps) => {
   const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+
+  if (!activity) return null;
+
+  const isSoldOut = activity.sales >= activity.placeLimit;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -19,8 +28,9 @@ const BookNow = ({ activityId, open, setOpen }: BookNowProps) => {
     const response = await fetch("/api/bookings", {
       method: "POST",
       body: JSON.stringify({
-        activity: activityId,
+        activity: activity._id,
         name,
+        isWaitlisted: isSoldOut,
         email,
       }),
     });
@@ -70,9 +80,9 @@ const BookNow = ({ activityId, open, setOpen }: BookNowProps) => {
                     </Dialog.Title>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
-                        We just need a few details to confirm your booking. You
-                        will receive an email with the details once you have
-                        completed the booking.
+                        {isSoldOut
+                          ? "We just need a few details to add you to the waiting list. You will receive an email with the details once a booking is available."
+                          : "We just need a few details to confirm your booking. You will receive an email with the details once you have completed the booking."}
                       </p>
                     </div>
                   </div>
@@ -125,7 +135,7 @@ const BookNow = ({ activityId, open, setOpen }: BookNowProps) => {
                       type="submit"
                       className="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
                     >
-                      Book now
+                      {isSoldOut ? "Add to Waiting List" : "Book now"}
                     </button>
                   </div>
                 </form>
